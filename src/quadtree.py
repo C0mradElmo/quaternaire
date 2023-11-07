@@ -32,7 +32,7 @@ def test_2():
     quad = qt.from_list(data=data)
     pprint(quad.hg.depth)
     # assert quad.__eq__(test) == True
-    assert quad.hg == test.hg
+    assert quad.hg == test.hg and quad.hd == test.hd and quad.bg == test.bg and quad.bd == test.bd
 
     """assert QuadTree.fromList(QuadTree.fromFile("quadtree.txt")) == [[0, 0, 0, [1, 0, 0, 0]], [0, 0, [0, 1, 0, 0], 0],
                                                                       [0, 0, 0, [[1, 0, 0, 1], [0, 0, 1, 1], 0, 0]],
