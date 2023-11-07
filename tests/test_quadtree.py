@@ -6,10 +6,10 @@ sys.path.append(os.path.realpath(os.path.dirname(__file__)+"/.."))
 from src import QuadTree
 def test_sample():
     filename = "files/quadtree.txt"
-    q = QuadTree.fromFile(filename)
+    q = QuadTree.from_file()
     assert q.depth == 4
 
 def test_single():
     filename = "quadtree_easy.txt"
-    q = QuadTree.fromFile(filename)
+    q = QuadTree.from_file()
     assert q.depth == 1
