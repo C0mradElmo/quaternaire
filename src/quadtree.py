@@ -7,13 +7,15 @@ import pytest
 
 
 def test_1():
+    """Test pour comparer la génération avec le fichier simple"""
     quad = QuadTree
     test = QuadTree(False, True, False, True)
     quad = QuadTree.from_list(QuadTree.from_file("quadtree_easy.txt"))
-    assert quad.hg & quad.hd & quad.bd & quad.bg == test.hg & test.hd & test.bd & test.bg
+    assert quad.__eq__(test) is True
 
 
 def test_2():
+    """Test pour comparer la génération avec le fichier complexe"""
     aa = aa = QuadTree(True, False, False, False)
     a = a = QuadTree(False, False, False, aa)
     bb = QuadTree(False, True, False, False)
@@ -31,68 +33,38 @@ def test_2():
     test = QuadTree(a, b, c, d)
     quad = qt.from_list(data=data)
     pprint(quad.hg.depth)
-    # assert quad.__eq__(test) == True
-    assert quad.hg == test.hg and quad.hd == test.hd and quad.bg == test.bg and quad.bd == test.bd
-
-    """assert QuadTree.fromList(QuadTree.fromFile("quadtree.txt")) == [[0, 0, 0, [1, 0, 0, 0]], [0, 0, [0, 1, 0, 0], 0],
-                                                                      [0, 0, 0, [[1, 0, 0, 1], [0, 0, 1, 1], 0, 0]],
-                                                                      [0, 0, [[0, 0, 1, 1], [0, 1, 1, 0], 0, 0], 0]]"""
+    assert quad.__eq__(test) is True
 
 
 class QuadTree:
     NB_NODES: int = 4
     depth: int
-
+    
     def __init__(self, hg: bool | QuadTree, hd: bool | QuadTree, bd: bool | QuadTree, bg: bool | QuadTree):
         self.hg = hg
         self.hd = hd
         self.bd = bd
         self.bg = bg
-
+    
     @property
     def depth(self) -> int:
-        """ Recursion depth of the quadtree"""
-        """self.depth: int
-        if issubclass(QuadTree, QuadTree):
-            self.depth += 1"""
+        """TODO"""
+        # ça ne marchait pas et ça cassait tout
         return 1
-
+    
     @staticmethod
     def from_file(filename: str) -> list:
-        """ Open a given file, containing a textual representation of a list"""
+        """Ouverture et "formatage" du fichier"""
         data: list
         contenu: str
         contenu: str = open(filename, "r")
         data = json.load(contenu)
         return data
-
-    # @staticmethod
-    # def fromList(data: list, self=None) -> QuadTree:
-    #     """ Generates a Quadtree from a list representation"""
-    #
-    #     quad = QuadTree
-    #     for i, value in enumerate(data):
-    #         if not isinstance(data[i], list | tuple):
-    #             data[i] = bool(data[i])
-    #         else:
-    #             data[i] = fromList(data[i])
-    #             for j, value1 in enumerate(data):
-    #                 if not isinstance(data[j], list | tuple):
-    #                     data[j] = True if data[j] == 1 else False
-    #                 else:
-    #                     data[j] = QuadTree(data[j][0], data[j][1], data[j][2], data[j][3])
-    #                     for k, value2 in enumerate(data):
-    #                         if not isinstance(data[k], list | tuple):
-    #                             data[k] = True if data[k] == 1 else False
-    #                         else:
-    #                             data[k] = QuadTree(data[k][0], data[k][1], data[k][2], data[k][3])
-    #
-    #     return quad(data[0], data[1], data[2], data[3])
-
+  
     @staticmethod
     def from_list(data: list, depth: int = 0) -> QuadTree:
+        """ Generation du Quadtree à partir d'une liste (un collègue m'a un peu aidé, pour épurer un peu mon code) """
         depth = depth + 1
-        """ Generates a Quadtree from a list representation"""
         new_data = []
         for child_node in data:
             if isinstance(child_node, list):
@@ -102,16 +74,19 @@ class QuadTree:
         quad = QuadTree(*new_data)
         quad.depht = depth
         return quad
-
-
+    
     @depth.setter
     def depth(self, value):
+        """TODO"""
         self._depth = value
-
+    
     def __eq__(self, other):
+        """Pour la comparaison lors de mes tests"""
         if isinstance(other, QuadTree):
             return self.hd == other.hd and self.hg == other.hg and self.bg == other.bg and self.bd == other.bd
-        return False
+        else:
+            return False
+
 
 """if isinstance(QuadTree, QuadTree):
         return self.hd == other.hd & self.hg == other.hg & self.bg == other.bg & self.bd == other.bd"""

@@ -1,5 +1,7 @@
 
-import sys, os
+import os
+import sys
+
 sys.path.append(os.path.realpath(os.path.dirname(__file__)+"/.."))
 
 # from src import QuadTree, TkQuadTree
@@ -10,6 +12,6 @@ def test_sample():
     assert q.depth == 4
 
 def test_single():
-    filename = "quadtree_easy.txt"
+    filename = "files/quadtree_easy.txt"
     q = QuadTree.from_file()
     assert q.depth == 1
